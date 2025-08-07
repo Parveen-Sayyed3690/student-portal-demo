@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recipe Book</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff8f0;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #d35400;
+    }
+
+    .container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .recipe {
+      background: #ffe5b4;
+      padding: 15px;
+      border-radius: 10px;
+      width: 250px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      cursor: pointer;
+    }
+
+    .recipe:hover {
+      background: #ffd39f;
+    }
+
+    .details {
+      margin-top: 20px;
+      background: #fff3e0;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    form {
+      margin-top: 30px;
+      background: #fef2e6;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    input, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    button {
+      background-color: #d35400;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #e67e22;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📖 My Recipe Book</h1>
+
+  <div class="container" id="recipeList"></div>
+
+  <div class="details" id="recipeDetails">
+    <h2>Click on a recipe to see details</h2>
+  </div>
+
+  <form id="addRecipeForm">
+    <h2>Add a New Recipe</h2>
+    <input type="text" id="recipeName" placeholder="Recipe Name" required />
+    <textarea id="recipeIngredients" placeholder="Ingredients (comma separated)" required></textarea>
+    <textarea id="recipeInstructions" placeholder="Instructions" required></textarea>
+    <button type="submit">Add Recipe</button>
+  </form>
+
+  <script>
+    let recipes = [
+      {
+        name: "Chocolate Cake",
+        ingredients: "Flour, Sugar, Cocoa powder, Eggs, Milk, Butter",
+        instructions: "Mix ingredients, bake at 180°C for 30 minutes."
+      },
+      {
+        name: "Pasta Alfredo",
+        ingredients: "Pasta, Cream, Garlic, Cheese, Butter",
+        instructions: "Boil pasta. Cook sauce. Mix and serve."
+      }
+    ];
+
+    const recipeList = document.getElementById("recipeList");
+    const recipeDetails = document.getElementById("recipeDetails");
+    const addRecipeForm = document.getElementById("addRecipeForm");
+
+    function displayRecipes() {
+      recipeList.innerHTML = "";
+      recipes.forEach((recipe, index) => {
+        const div = document.createElement("div");
+        div.className = "recipe";
+        div.textContent = recipe.name;
+        div.onclick = () => showDetails(index);
+        recipeList.appendChild(div);
+      });
+    }
+
+    function showDetails(index) {
+      const recipe = recipes[index];
+      recipeDetails.innerHTML = `
+        <h2>${recipe.name}</h2>
+        <h4>Ingredients:</h4>
+        <p>${recipe.ingredients}</p>
+        <h4>Instructions:</h4>
+        <p>${recipe.instructions}</p>
+      `;
+    }
+
+    addRecipeForm.onsubmit = function (e) {
+      e.preventDefault();
+      const name = document.getElementById("recipeName").value;
+      const ingredients = document.getElementById("recipeIngredients").value;
+      const instructions = document.getElementById("recipeInstructions").value;
+
+      recipes.push({ name, ingredients, instructions });
+
+      addRecipeForm.reset();
+      displayRecipes();
+    };
+
+    displayRecipes();
+  </script>
+
+</body>
+</html>
+
